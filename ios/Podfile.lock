@@ -1,0 +1,59 @@
+PODS:
+  - camera_avfoundation (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - fluttertoast (0.0.2):
+    - Flutter
+    - Toast
+  - geolocator_apple (1.2.0):
+    - Flutter
+  - kakao_map_plugin (0.0.1):
+    - Flutter
+  - permission_handler_apple (9.1.1):
+    - Flutter
+  - Toast (4.0.0)
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - camera_avfoundation (from `.symlinks/plugins/camera_avfoundation/ios`)
+  - Flutter (from `Flutter`)
+  - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
+  - kakao_map_plugin (from `.symlinks/plugins/kakao_map_plugin/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Toast
+
+EXTERNAL SOURCES:
+  camera_avfoundation:
+    :path: ".symlinks/plugins/camera_avfoundation/ios"
+  Flutter:
+    :path: Flutter
+  fluttertoast:
+    :path: ".symlinks/plugins/fluttertoast/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
+  kakao_map_plugin:
+    :path: ".symlinks/plugins/kakao_map_plugin/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
+
+SPEC CHECKSUMS:
+  camera_avfoundation: 3125e8cd1a4387f6f31c6c63abb8a55892a9eeeb
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
+  geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
+  kakao_map_plugin: 232bc2486ea3ffb5d44c49eac1bcc6dde1a7f0ee
+  permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
+  Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
+
+PODFILE CHECKSUM: 1691279ae618bfbd46ad9a23586f02dc7947636f
+
+COCOAPODS: 1.12.1

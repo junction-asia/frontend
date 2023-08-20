@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:leg_work/src/camera/view/camera_page.dart';
+import 'package:leg_work/src/login/view/login_page.dart';
+import 'package:leg_work/src/map/view/map_page.dart';
+import 'package:leg_work/src/memo/view/memo_view.dart';
+import 'package:leg_work/utils/constants.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:data/data/address/address_export.dart';
+import 'package:data/data/land/land_export.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load(fileName: ".env");
+  AuthRepository.initialize(appKey: javaScriptKey);
+
+  runApp(MultiRepositoryProvider(providers: [
+    RepositoryProvider(create: (context) => AddressRepository()),
+    RepositoryProvider(create: (context) => LandRepository()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,28 +30,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          appBarTheme: const AppBarTheme(
+            systemOverlayStyle: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.dark,
+              statusBarBrightness: Brightness.light,
+            ),
+          ),
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: const MapPage());
   }
 }
 
@@ -112,13 +121,68 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginPate()));
+                },
+                child: const Text("hi12")),
+            OutlinedButton(
+              onPressed: () async {
+                var requestStatus = await Permission.camera.request();
+                var status = await Permission.camera.status;
+
+                print(status);
+                print(requestStatus);
+
+                if (requestStatus.isGranted &&
+                    status.isLimited &&
+                    requestStatus.isPermanentlyDenied) {
+                  openAppSettings();
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CameraPage()));
+                }
+              },
+              child: const Text("hi"),
+            ),
+            OutlinedButton(
+                onPressed: () async {
+                  LocationPermission permission =
+                      await Geolocator.checkPermission();
+                  if (permission == LocationPermission.denied) {
+                    permission = await Geolocator.requestPermission();
+                    if (permission == LocationPermission.denied) {
+                      return Future.error('Location permissions are denied');
+                    }
+                  } else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MapPage()));
+                  }
+                },
+                child: const Text("map")),
+            OutlinedButton(
+              onPressed: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MemoView()));
+              },
+              child: const Text("memo"),
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
